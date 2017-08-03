@@ -83,6 +83,8 @@ void Error_Handler(void);
 /* Private function prototypes -----------------------------------------------*/
 void read_inital_values(void);
 static inline int Flash_full(void);
+void MX_TIM22_Init2(uint16_t prescaler,uint16_t period);
+
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -120,7 +122,7 @@ HAL_TIM_Base_Start_IT(&htim22);
 //	HAL_NVIC_SetPriority(LPTIM1_IRQn,1,0);
 //	HAL_NVIC_EnableIRQ(LPTIM1_IRQn);
  //HAL_LPTIM_MspInit():
-
+ MX_TIM22_Init2(150,50999);
 resetMPU9250(); // Reset registers to default in preparation for device calibration
 calibrateMPU9250(gyroBias, accelBias); // Calibrate gyro and accelerometers, load biases in bias registers  
 initMPU9250();
@@ -134,6 +136,9 @@ HAL_ADC_Start(&hadc);
 		//SER_FLASH_ERASE();//erase command function call
    // HAL_Delay(1000);//delay must be 1.5s for full erase
 		//HAL_Delay(500);//========
+
+		//HAL_Delay(500);//========
+
 	//read_inital_values();//READ INITAL VALUE OF mpu9250 all registers
 //init_seq=1;//variable used for detecting if initilaization has been done for sensor
 
@@ -150,7 +155,7 @@ page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
 		while(program_start==false)
 		{
 			printf("		ready to record datat\n\r");
-			//htim22.Init.Prescaler = 0;// for 10ms value is 4 for 1ms value 0 for 1.6ms value is 0
+			//htim22.Init.Prescaler = 2;// for 10ms value is 4 for 1ms value 0 for 1.6ms value is 0
 			//htim22.Init.Period = 31999;//for 10ms value is 63999 for 1ms value is 31999 for 1.6ms value is 50999
 			HAL_ADC_Start(&hadc);
 			while((HAL_ADC_GetValue(&hadc))<=0x5ff)//read adc for touch sensing
@@ -159,10 +164,14 @@ page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
 								HAL_Delay(200);
 
 			}
-//			while(HAL_GPIO_ReadPin(Sw1_GPIO_Port, Sw1_Pin)==1)
+				printf("adc_value_after touch=%x\n\r",HAL_ADC_GetValue(&hadc));
+
+			//			while(HAL_GPIO_ReadPin(Sw1_GPIO_Port, Sw1_Pin)==1)
 //			{
 //				;
 //			}
+			 MX_TIM22_Init2(0,50999);
+
 				page_A23_A16=0;
         page_A15_A8=0;
         page_A7_A0=0;
@@ -181,7 +190,8 @@ page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
 		 //if((read==true) && (Flash_tx_rx[1] == 0x07) && (Flash_tx_rx[2] ==0xFF) && (Flash_tx_rx[3] ==0x00))
    if( Flash_full())//check if flash is full and ready to be read out
 		{
-			printf("ready to read\n\r");			
+			printf("ready to read\n\r");		
+			 MX_TIM22_Init2(300,50999);			
 			while((HAL_ADC_GetValue(&hadc))<=0x5ff)//read adc for touch sensing
 			{
 				printf("adc_value=%x\n\r",HAL_ADC_GetValue(&hadc));
@@ -191,7 +201,7 @@ page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
 //			{
 //				;
 //			}
-			
+			MX_TIM22_Init2(500,50999);	
 			 			 for(int j=0;j<=255;j++)
 			 {
 				 printf("samples_befor read[%i]=%x\n\r",j,Sensor_data[j]);
@@ -332,6 +342,41 @@ readMagData(&init_val[0]);
 	
 	
 }
+
+void MX_TIM22_Init2(uint16_t prescaler,uint16_t period)
+{
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+
+  htim22.Instance = TIM22;
+  htim22.Init.Prescaler = prescaler;
+  htim22.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim22.Init.Period = period;
+  htim22.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  if (HAL_TIM_Base_Init(&htim22) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim22, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim22, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+}
+
+
+
+
+
 /* USER CODE END 4 */
 
 /**
