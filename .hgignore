@@ -1,0 +1,10 @@
+syntax: glob
+*.o
+*.d
+*.crf
+*.dep
+*.sct
+*.map
+*.lnp
+*.htm
+*.axf
