@@ -155,7 +155,7 @@ page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
 			HAL_ADC_Start(&hadc);
 			while((HAL_ADC_GetValue(&hadc))<=0x5ff)//read adc for touch sensing
 			{
-				printf("adc_value=%x\n\r",HAL_ADC_GetValue(&hadc));
+				printf("adc_value_start recording=%x\n\r",HAL_ADC_GetValue(&hadc));
 								HAL_Delay(200);
 
 			}
