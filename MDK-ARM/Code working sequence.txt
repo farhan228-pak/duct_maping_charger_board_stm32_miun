@@ -1,0 +1,68 @@
+code is initialize using
+
+GPIO Initialization
+
+I2C2 initilize for Sensor
+
+SPI initialize for external EEPROM 
+
+USART2 initialize for Debug messages
+
+ADC initialization for touch sensing
+
+Timer22 initialize with diffrent intrupt timming for sampling and diffrent stages
+		//1.6ms is the intruppet timing whrn taking samples from sensor
+		
+1) At the start MPU9250 is reset by calling  resetMPU9250(); // Reset registers to default in preparation for device calibration
+
+2) Gyro and Accelero is calibrated using calibrateMPU9250(gyroBias, accelBias); // Calibrate gyro and accelerometers, load biases in bias registers  
+
+3)MPU9250 is initialize not magnatometer using  initMPU9250();
+
+4) Magnatometer is initalize using initAK8963(magCalibration);
+
+5) Program has three main steps and keeps running between one of these three stages 
+	// for these three stages three diffrent veriables are used 
+	/******** variables******//
+	# program_start
+	# first
+	# read
+	# init_seq // it is required to check in timer intrupt to see that sensor has been initializ
+	$$ at the start all three variables are at false condition 
+	
+	#first the code checks the program_start variable and perform these task after reset and every complet read out 
+	
+	**first it waits for the touch and will not forward untill a touch is detected
+	** after the touch is detected timer22(TIM22) is initialse with a timer intrupt of 1.6ms
+	** variables for EEPROM address are initalize to zero for pointing to page 0(zero) first page
+	** Flash must be erased Completly before any new writing is to be done
+	** for erase command to be completed a delay of 1.5(seconds) is required before writing can be done 
+	
+	** init_seq is set to 1 or true and programm_start is also set to true and this loop is exit and program now run
+	** based on intrupt and run in main while loop  now in timer intrupt samples are collected in the following sequence
+	
+					** on every intruppt a call back function is called 
+					****void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)***
+					**program check "init_seq" and that "read" is false
+					** first 6 register are read for accelero and place in "sensor_data[]"array 
+						and variable samples is used dor counting number of samples
+					** then 6 Gyro register are read and place in the same array and sample count is incremented
+					** then 6 magnatometer registers are read and place in same arry and sample count is incremented
+					
+					**At the end of 13 intrupts the sample count has reaached "252" so loop check this
+					** and in last three places "0" is place in array and can be used for placing tempratur of MPU9250
+					
+					**after 256 sampples are collected  during the intrupt it checks if "read" false 
+					** a seprat arry is formulated with page program command and eeprom addres 
+					** that is  Flash_Store();//formulate array with page command and address of location increment 255 after every call
+
+	## Variable ""first"" is used in function "Flash_store()" for detecting so that page address should be all zero at start
+	
+		**after formulating the array 255 bytes are writen on the first page of EEPROM and checke is used
+		** for detecting the maximum EEPROM page adress
+	
+	##After EEPROM is full variable "read" is set to true so it can be checkd in main loop to read the full memory 
+		**while the "read" is true programm waits for another touch so data can be 
+		** outputed on the USART to PC
+		** after all the data is transmitted programm  return to "program_start" satge
+		** and wait for new touch to start sensor recording
