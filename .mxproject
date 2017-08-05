@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/Users/SEPS/Google Drive/SEPS/duct_maping_charger_board_stm32_v2/Inc
+HeaderPath=C:/Users/SEPS/Documents/duct_TEST/Inc
 HeaderFiles=stm32l0xx_it.h;stm32l0xx_hal_conf.h;mxconstants.h;gpio.h;i2c.h;spi.h;usart.h;adc.h;lptim.h;tim.h;
-SourcePath=C:/Users/SEPS/Google Drive/SEPS/duct_maping_charger_board_stm32_v2/Src
+SourcePath=C:/Users/SEPS/Documents/duct_TEST/Src
 SourceFiles=stm32l0xx_it.h;stm32l0xx_hal_conf.h;mxconstants.h;stm32l0xx_it.c;stm32l0xx_hal_msp.c;main.c;gpio.h;i2c.h;spi.h;usart.h;gpio.c;i2c.c;spi.c;usart.c;adc.h;adc.c;lptim.h;lptim.c;tim.h;tim.c;
 
 [PreviousLibFiles]
