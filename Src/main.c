@@ -216,7 +216,7 @@ page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
 			 
 		while(Flash_tx_rx[1] != 0x07)
      {
-			  Flash_tx_rx[0] = 0x03;//page read command prviously this location stored page write command	
+			  Flash_tx_rx[0] = Read_Data;//page read command prviously this location stored page write command	
 			 FLASH_CS_0;
 			 HAL_SPI_Transmit(&hspi1,&Flash_tx_rx[0], 4, 10);
 
