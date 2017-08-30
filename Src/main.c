@@ -219,14 +219,13 @@ page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
 			  Flash_tx_rx[0] = Read_Data;//page read command prviously this location stored page write command	
 			 FLASH_CS_0;
 			 HAL_SPI_Transmit(&hspi1,&Flash_tx_rx[0], 4, 10);
-
 			 //HAL_SPI_TransmitReceive(&hspi1, &Sensor_data[0],&Sensor_data[0], 255, 10);
 //			 for(int i=0;i<=254;i++)
 //			 {
 //				 HAL_SPI_Receive(&hspi1, &Sensor_data[i], 1, 10);
 //			 }
+			 
 			 HAL_SPI_Receive(&hspi1, &Sensor_data[0], 255, 10);
-
 			 FLASH_CS_1; 
 //			 for(int i=0;i<=255;i++)
 //			 {
@@ -235,6 +234,7 @@ page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
 		Flash_Store();//formulate array with page command and address of location increment 255 after every call
 
 		 }
+		 HAL_SPI_DeInit(&hspi1);
 		 init_seq=0;
 		 first=false;
 		program_start=false;
@@ -312,6 +312,8 @@ void read_inital_values(void)
 {
 			int16_t init_val[8];
 	uint8_t whoami = readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
+	printf("I AM 0x%x\n\r", whoami);
+	whoami = readByte(WHO_AM_I_AK8963, WHO_AM_I_AK8963);
 	printf("I AM 0x%x\n\r", whoami);
 	readAccelData(&init_val[0]);	
 	printf("acl_X=%i   acl_Y=%i  acl_Z=%i\n\r",init_val[0],init_val[1],init_val[2]);

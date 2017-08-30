@@ -90,6 +90,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				will not over flow and only 252 samples will be colected  and stored in array*/
 			 if(samples==252)
 			 {
+				Sensor_data[samples]=readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
+				  samples=samples+1;
+
+				Sensor_data[samples]=readByte(WHO_AM_I_AK8963, WHO_AM_I_AK8963);
+				  samples=samples+1;
+				 
 				 samples=255;
 			 }	
 	/**************************************************/			 
