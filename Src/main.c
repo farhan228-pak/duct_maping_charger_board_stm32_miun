@@ -158,13 +158,13 @@ page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
 			//htim22.Init.Prescaler = 2;// for 10ms value is 4 for 1ms value 0 for 1.6ms value is 0
 			//htim22.Init.Period = 31999;//for 10ms value is 63999 for 1ms value is 31999 for 1.6ms value is 50999
 			HAL_ADC_Start(&hadc);
-			while((HAL_ADC_GetValue(&hadc))<=0x5ff)//read adc for touch sensing
-			{
-				printf("adc_value_start recording=%x\n\r",HAL_ADC_GetValue(&hadc));
-								HAL_Delay(200);
+//			while((HAL_ADC_GetValue(&hadc))<=0x5ff)//read adc for touch sensing
+//			{
+//				printf("adc_value_start recording=%x\n\r",HAL_ADC_GetValue(&hadc));
+//								HAL_Delay(200);
 
-			}
-				printf("adc_value_after touch=%x\n\r",HAL_ADC_GetValue(&hadc));
+//			}
+//				printf("adc_value_after touch=%x\n\r",HAL_ADC_GetValue(&hadc));
 
 			//			while(HAL_GPIO_ReadPin(Sw1_GPIO_Port, Sw1_Pin)==1)
 //			{
@@ -313,7 +313,7 @@ void read_inital_values(void)
 			int16_t init_val[8];
 	uint8_t whoami = readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
 	printf("I AM 0x%x\n\r", whoami);
-	whoami = readByte(WHO_AM_I_AK8963, WHO_AM_I_AK8963);
+	whoami = readByte(AK8963_ADDRESS, WHO_AM_I_AK8963);
 	printf("I AM 0x%x\n\r", whoami);
 	readAccelData(&init_val[0]);	
 	printf("acl_X=%i   acl_Y=%i  acl_Z=%i\n\r",init_val[0],init_val[1],init_val[2]);

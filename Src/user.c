@@ -93,7 +93,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				Sensor_data[samples]=readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
 				  samples=samples+1;
 
-				Sensor_data[samples]=readByte(WHO_AM_I_AK8963, WHO_AM_I_AK8963);
+				Sensor_data[samples]=readByte(AK8963_ADDRESS, WHO_AM_I_AK8963);
 				  samples=samples+1;
 				 
 				 samples=255;
