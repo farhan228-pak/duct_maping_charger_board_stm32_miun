@@ -146,6 +146,8 @@ read = false;
 first= false;
 program_start=false;
 page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
+uint8_t LF='\n';
+uint8_t CR='\r';
   while (1)
   {
   /* USER CODE END WHILE */
@@ -154,7 +156,7 @@ page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
  
 		while(program_start==false)
 		{
-			printf("		ready to record datat\n\r");
+			//printf("		ready to record datat\n\r");
 			//htim22.Init.Prescaler = 2;// for 10ms value is 4 for 1ms value 0 for 1.6ms value is 0
 			//htim22.Init.Period = 31999;//for 10ms value is 63999 for 1ms value is 31999 for 1.6ms value is 50999
 			HAL_ADC_Start(&hadc);
@@ -190,22 +192,22 @@ page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
 		 //if((read==true) && (Flash_tx_rx[1] == 0x07) && (Flash_tx_rx[2] ==0xFF) && (Flash_tx_rx[3] ==0x00))
    if( Flash_full())//check if flash is full and ready to be read out
 		{
-			printf("ready to read\n\r");		
+		//	printf("ready to read\n\r");		
 			 MX_TIM22_Init2(300,50999);			
-			while((HAL_ADC_GetValue(&hadc))<=0x5ff)//read adc for touch sensing
-			{
-				printf("adc_value=%x\n\r",HAL_ADC_GetValue(&hadc));
-				HAL_Delay(200);
-			}
+//			while((HAL_ADC_GetValue(&hadc))<=0x5ff)//read adc for touch sensing
+//			{
+//				printf("adc_value=%x\n\r",HAL_ADC_GetValue(&hadc));
+//				HAL_Delay(200);
+//			}
 //			while(HAL_GPIO_ReadPin(Sw1_GPIO_Port, Sw1_Pin)==1)
 //			{
 //				;
 //			}
 			MX_TIM22_Init2(500,50999);	
-			 			 for(int j=0;j<=255;j++)
-			 {
-				 printf("samples_befor read[%i]=%x\n\r",j,Sensor_data[j]);
-			 }
+//			 			 for(int j=0;j<=255;j++)
+//			 {
+//				 printf("samples_befor read[%i]=%x\n\r",j,Sensor_data[j]);
+//			 }
 				page_A23_A16=0;
         page_A15_A8=0;
         page_A7_A0=0;
@@ -214,31 +216,32 @@ page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
          Flash_tx_rx[2] = 0x00;
          Flash_tx_rx[3] = 0x00;
 			 
-		while(Flash_tx_rx[1] != 0x07)
+		while((Flash_tx_rx[1] != 0x07) || (Flash_tx_rx[2] != 0xFF))
      {
 			  Flash_tx_rx[0] = Read_Data;//page read command prviously this location stored page write command	
 			 FLASH_CS_0;
 			 HAL_SPI_Transmit(&hspi1,&Flash_tx_rx[0], 4, 10);
-			 //HAL_SPI_TransmitReceive(&hspi1, &Sensor_data[0],&Sensor_data[0], 255, 10);
-//			 for(int i=0;i<=254;i++)
-//			 {
-//				 HAL_SPI_Receive(&hspi1, &Sensor_data[i], 1, 10);
-//			 }
 			 
 			 HAL_SPI_Receive(&hspi1, &Sensor_data[0], 255, 10);
 			 FLASH_CS_1; 
-//			 for(int i=0;i<=255;i++)
-//			 {
-//				 printf("samples[%i]=%x\n\r",i,Sensor_data[i]);
-//			 }
+			 for(int i=0;i<=255;i++)
+			 {
+				 //printf("samples[%i]=%x\n\r",i,Sensor_data[i]);
+				// printf("%x\n\r",Sensor_data[i]);
+				 HAL_UART_Transmit(&huart2,&Sensor_data[i],1,0xFFFF);
+				 //HAL_UART_Transmit(&huart2,&LF,1,0xFFFF);
+				// HAL_UART_Transmit(&huart2,&CR,1,0xFFFF);
+			 }
 		Flash_Store();//formulate array with page command and address of location increment 255 after every call
 
 		 }
-		 HAL_SPI_DeInit(&hspi1);
+//printf("Flash_address=%x%x%x\n\r",Flash_tx_rx[1],Flash_tx_rx[2],Flash_tx_rx[3]);
+		 //HAL_SPI_DeInit(&hspi1);
 		 init_seq=0;
 		 first=false;
 		program_start=false;
 		read=false;
+		 while(1);
 		
 		 }
 		

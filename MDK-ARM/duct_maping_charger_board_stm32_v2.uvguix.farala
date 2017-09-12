@@ -83,8 +83,8 @@
       <flags>2</flags>
       <showCmd>3</showCmd>
       <MinPosition>
-        <xPos>-1</xPos>
-        <yPos>-1</yPos>
+        <xPos>-32000</xPos>
+        <yPos>-32000</yPos>
       </MinPosition>
       <MaxPosition>
         <xPos>-1</xPos>
@@ -100,8 +100,8 @@
     <MDIClientArea>
       <RegID>0</RegID>
       <MDITabState>
-        <Len>454</Len>
-        <Data>01000000040000000100000001000000010000000100000000000000020000000000000001000000010000000000000028000000280000000100000003000000010000000100000044433A5C55736572735C666172616C615C446F63756D656E74735C647563745F6D6170696E675F636861726765725F626F6172645F73746D33325C5372635C6D61696E2E6300000000066D61696E2E6300000000FFDC7800FFFFFFFF44433A5C55736572735C666172616C615C446F63756D656E74735C647563745F6D6170696E675F636861726765725F626F6172645F73746D33325C5372635C757365722E630000000006757365722E6300000000BECEA100FFFFFFFF47433A5C55736572735C666172616C615C446F63756D656E74735C647563745F6D6170696E675F636861726765725F626F6172645F73746D33325C496E635C4D5055393235302E6800000000094D5055393235302E6800000000F0A0A100FFFFFFFF0100000010000000C5D4F200FFDC7800BECEA100F0A0A100BCA8E1009CC1B600F7B88600D9ADC200A5C2D700B3A6BE00EAD6A300F6FA7D00B5E99D005FC3CF00C1838300CACAD500010000000000000002000000EC0000006E0000005605000040020000</Data>
+        <Len>697</Len>
+        <Data>01000000040000000100000001000000010000000100000000000000020000000000000001000000010000000000000028000000280000000100000005000000000000000100000044433A5C55736572735C666172616C615C446F63756D656E74735C647563745F6D6170696E675F636861726765725F626F6172645F73746D33325C5372635C6D61696E2E6300000000066D61696E2E6300000000FFDC7800FFFFFFFF44433A5C55736572735C666172616C615C446F63756D656E74735C647563745F6D6170696E675F636861726765725F626F6172645F73746D33325C5372635C757365722E630000000006757365722E6300000000BECEA100FFFFFFFF47433A5C55736572735C666172616C615C446F63756D656E74735C647563745F6D6170696E675F636861726765725F626F6172645F73746D33325C496E635C4D5055393235302E6800000000094D5055393235302E6800000000F0A0A100FFFFFFFF45433A5C55736572735C666172616C615C446F63756D656E74735C647563745F6D6170696E675F636861726765725F626F6172645F73746D33325C5372635C75736172742E63000000000775736172742E6300000000BCA8E100FFFFFFFF6F433A5C55736572735C666172616C615C446F63756D656E74735C647563745F6D6170696E675F636861726765725F626F6172645F73746D33325C447269766572735C53544D33324C3078785F48414C5F4472697665725C5372635C73746D33326C3078785F68616C5F756172742E63000000001473746D33326C3078785F68616C5F756172742E63000000009CC1B600FFFFFFFF0100000010000000C5D4F200FFDC7800BECEA100F0A0A100BCA8E1009CC1B600F7B88600D9ADC200A5C2D700B3A6BE00EAD6A300F6FA7D00B5E99D005FC3CF00C1838300CACAD500010000000000000002000000EC0000006E0000005605000040020000</Data>
       </MDITabState>
     </MDIClientArea>
     <ViewEx>
@@ -516,7 +516,7 @@
         <IsActivated>0</IsActivated>
         <MRUWidth>32767</MRUWidth>
         <PinState>0</PinState>
-        <RecentFrameAlignment>4096</RecentFrameAlignment>
+        <RecentFrameAlignment>32768</RecentFrameAlignment>
         <RecentRowIndex>0</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
@@ -1136,7 +1136,7 @@
         <IsActivated>0</IsActivated>
         <MRUWidth>32767</MRUWidth>
         <PinState>0</PinState>
-        <RecentFrameAlignment>4096</RecentFrameAlignment>
+        <RecentFrameAlignment>32768</RecentFrameAlignment>
         <RecentRowIndex>0</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
@@ -1156,7 +1156,7 @@
         <IsActivated>0</IsActivated>
         <MRUWidth>32767</MRUWidth>
         <PinState>0</PinState>
-        <RecentFrameAlignment>4096</RecentFrameAlignment>
+        <RecentFrameAlignment>32768</RecentFrameAlignment>
         <RecentRowIndex>0</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
@@ -1216,7 +1216,7 @@
         <IsActivated>0</IsActivated>
         <MRUWidth>32767</MRUWidth>
         <PinState>0</PinState>
-        <RecentFrameAlignment>4096</RecentFrameAlignment>
+        <RecentFrameAlignment>32768</RecentFrameAlignment>
         <RecentRowIndex>0</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
@@ -1236,7 +1236,7 @@
         <IsActivated>0</IsActivated>
         <MRUWidth>32767</MRUWidth>
         <PinState>0</PinState>
-        <RecentFrameAlignment>4096</RecentFrameAlignment>
+        <RecentFrameAlignment>32768</RecentFrameAlignment>
         <RecentRowIndex>0</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
@@ -1812,21 +1812,21 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>1</ActiveTab>
+      <ActiveTab>0</ActiveTab>
       <Doc>
         <Name>../Src/main.c</Name>
-        <ColumnNumber>34</ColumnNumber>
-        <TopLine>304</TopLine>
-        <CurrentLine>316</CurrentLine>
+        <ColumnNumber>11</ColumnNumber>
+        <TopLine>220</TopLine>
+        <CurrentLine>232</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
         <Name>..\Src\user.c</Name>
-        <ColumnNumber>52</ColumnNumber>
-        <TopLine>85</TopLine>
-        <CurrentLine>96</CurrentLine>
+        <ColumnNumber>0</ColumnNumber>
+        <TopLine>2</TopLine>
+        <CurrentLine>8</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
@@ -1836,6 +1836,24 @@
         <ColumnNumber>8</ColumnNumber>
         <TopLine>22</TopLine>
         <CurrentLine>25</CurrentLine>
+        <Folding>1</Folding>
+        <ContractedFolders></ContractedFolders>
+        <PaneID>0</PaneID>
+      </Doc>
+      <Doc>
+        <Name>../Src/usart.c</Name>
+        <ColumnNumber>31</ColumnNumber>
+        <TopLine>43</TopLine>
+        <CurrentLine>52</CurrentLine>
+        <Folding>1</Folding>
+        <ContractedFolders></ContractedFolders>
+        <PaneID>0</PaneID>
+      </Doc>
+      <Doc>
+        <Name>../Drivers/STM32L0xx_HAL_Driver/Src/stm32l0xx_hal_uart.c</Name>
+        <ColumnNumber>63</ColumnNumber>
+        <TopLine>646</TopLine>
+        <CurrentLine>652</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
