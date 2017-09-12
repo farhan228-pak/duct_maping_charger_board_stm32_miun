@@ -91,11 +91,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			 if(samples==252)
 			 {
 				Sensor_data[samples]=readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
-				  samples=samples+1;
+				  samples=samples+1;//253
 
 				Sensor_data[samples]=readByte(AK8963_ADDRESS, WHO_AM_I_AK8963);
-				  samples=samples+1;
+				  samples=samples+1;//254
 				 
+				 int16_t readTempData();//read temprature 
+				 
+				 Sensor_data[samples]=reg8_bit[X_H];//temprature high byte
+				 samples=samples+1;//255
+				 Sensor_data[samples]=reg8_bit[X_L];//temprature low byte 
 				 samples=255;
 			 }	
 	/**************************************************/			 
@@ -118,7 +123,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	write_EN_Flash();//enable flash for writing	
 	FLASH_CS_0;	
 	HAL_SPI_Transmit(&hspi1,&Flash_tx_rx[0], 4, 10);//send first four bytes i.e page_prog,page_A23_A16,page_A15_8,page_A7_A0
-	HAL_SPI_Transmit(&hspi1,&Sensor_data[0], 255, 100);//send 255 bytes to flash
+	HAL_SPI_Transmit(&hspi1,&Sensor_data[0], 256, 100);//send 255 bytes to flash
 	FLASH_CS_1;	
 		    
 		if( (Flash_tx_rx[1] == 0x07) && (Flash_tx_rx[2] ==0xFF) && (Flash_tx_rx[3] ==0x00))

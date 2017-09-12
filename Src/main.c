@@ -203,6 +203,7 @@ uint8_t CR='\r';
 //			{
 //				;
 //			}
+			HAL_Delay (1000);
 			MX_TIM22_Init2(500,50999);	
 //			 			 for(int j=0;j<=255;j++)
 //			 {
@@ -222,7 +223,7 @@ uint8_t CR='\r';
 			 FLASH_CS_0;
 			 HAL_SPI_Transmit(&hspi1,&Flash_tx_rx[0], 4, 10);
 			 
-			 HAL_SPI_Receive(&hspi1, &Sensor_data[0], 255, 10);
+			 HAL_SPI_Receive(&hspi1, &Sensor_data[0], 256, 10);
 			 FLASH_CS_1; 
 			 for(int i=0;i<=255;i++)
 			 {
@@ -241,7 +242,7 @@ uint8_t CR='\r';
 		 first=false;
 		program_start=false;
 		read=false;
-		 while(1);
+		 while(1);//must remove for continuse opration added to test one memory transfer
 		
 		 }
 		
