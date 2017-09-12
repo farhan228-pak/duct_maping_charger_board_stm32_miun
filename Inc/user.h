@@ -10,7 +10,7 @@ extern char SPI_rec[10];
 extern uint8_t Flash_tx_rx[12];// mostly use for flash memory address
 extern  uint8_t program_start;//start programm where flash will be arrased
 
-extern uint8_t read,first;//variable used for checking read out or first write for which eras of memory is required
+extern uint8_t read,first,read_complet;//variable used for checking read out or first write for which eras of memory is required
 extern uint8_t page_A23_A16, page_A15_A8, page_A7_A0;//variables to store page adresses
 //void HAL_SYSTICK_Callback(void);// function call after every 1ms to take samples/systick timer is used
 void HAL_TIM_TriggerCallback(TIM_HandleTypeDef *htim);

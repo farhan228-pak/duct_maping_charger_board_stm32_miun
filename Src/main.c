@@ -143,6 +143,7 @@ HAL_ADC_Start(&hadc);
 //init_seq=1;//variable used for detecting if initilaization has been done for sensor
 
 read = false;
+read_complet=false;
 first= false;
 program_start=false;
 page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
@@ -217,9 +218,19 @@ uint8_t CR='\r';
          Flash_tx_rx[2] = 0x00;
          Flash_tx_rx[3] = 0x00;
 			 
-		while((Flash_tx_rx[1] != 0x07) || (Flash_tx_rx[2] != 0xFF))
+		while(read_complet==false)
      {
-			  Flash_tx_rx[0] = Read_Data;//page read command prviously this location stored page write command	
+//			 if(Flash_tx_rx[2] == 0xFF)
+//				 {
+//					 printf("Flash_tx_rx=%x",Flash_tx_rx[1]);
+//					 printf("%x\n\r",Flash_tx_rx[2]);
+//				 } 
+//				if(Flash_tx_rx[1] == 0x07)
+//				 {
+//					 printf("Flash_tx_rx=%x",Flash_tx_rx[1]);
+//					 printf("%x\n\r",Flash_tx_rx[2]);
+//				 } 
+			 Flash_tx_rx[0] = Read_Data;//page read command prviously this location stored page write command	
 			 FLASH_CS_0;
 			 HAL_SPI_Transmit(&hspi1,&Flash_tx_rx[0], 4, 10);
 			 
@@ -230,12 +241,21 @@ uint8_t CR='\r';
 				 //printf("samples[%i]=%x\n\r",i,Sensor_data[i]);
 				// printf("%x\n\r",Sensor_data[i]);
 				 HAL_UART_Transmit(&huart2,&Sensor_data[i],1,0xFFFF);
+				 
 				 //HAL_UART_Transmit(&huart2,&LF,1,0xFFFF);
 				// HAL_UART_Transmit(&huart2,&CR,1,0xFFFF);
 			 }
-		Flash_Store();//formulate array with page command and address of location increment 255 after every call
-
+			 		if( (Flash_tx_rx[1] == 0x07) && (Flash_tx_rx[2] ==0xFF) && (Flash_tx_rx[3] ==0x00))
+					{
+        read_complet=true;
+				}
+		 else{
+			 
+				Flash_Store();//formulate array with page command and address of location increment 255 after every call
+			}
+		 
 		 }
+		 
 //printf("Flash_address=%x%x%x\n\r",Flash_tx_rx[1],Flash_tx_rx[2],Flash_tx_rx[3]);
 		 //HAL_SPI_DeInit(&hspi1);
 		 init_seq=0;

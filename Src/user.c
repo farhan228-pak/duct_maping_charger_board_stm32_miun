@@ -12,7 +12,7 @@ uint8_t init_seq;
 char SPI_rec[10];
  uint8_t Flash_tx_rx[12];// mostly use for flash memory address
  uint8_t program_start;//start programm where flash will be arrased
- uint8_t read,first;//variable used for checking read out or first write for which eras of memory is required
+ uint8_t read,first,read_complet;//variable used for checking read out or first write for which eras of memory is required
  uint8_t page_A23_A16, page_A15_A8, page_A7_A0;//variables to store page adresses
 __IO uint32_t ms_1_count;
 /***************************************************/
@@ -123,7 +123,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	write_EN_Flash();//enable flash for writing	
 	FLASH_CS_0;	
 	HAL_SPI_Transmit(&hspi1,&Flash_tx_rx[0], 4, 10);//send first four bytes i.e page_prog,page_A23_A16,page_A15_8,page_A7_A0
-	HAL_SPI_Transmit(&hspi1,&Sensor_data[0], 256, 100);//send 255 bytes to flash
+	HAL_SPI_Transmit(&hspi1,&Sensor_data[0], 256, 100);//send 256 bytes to flash
 	FLASH_CS_1;	
 		    
 		if( (Flash_tx_rx[1] == 0x07) && (Flash_tx_rx[2] ==0xFF) && (Flash_tx_rx[3] ==0x00))
