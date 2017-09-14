@@ -241,7 +241,10 @@ uint8_t CR='\r';
 				 //printf("samples[%i]=%x\n\r",i,Sensor_data[i]);
 				// printf("%x\n\r",Sensor_data[i]);
 				 HAL_UART_Transmit(&huart2,&Sensor_data[i],1,0xFFFF);
-				 
+				// if(i==254)
+				// {
+//				 printf("temp=%f\n\r",((float)((int16_t)(((int16_t)Sensor_data[255]) << 8 | Sensor_data[254]))/333.87f) + 21.0f);//read temprature out
+				// }
 				 //HAL_UART_Transmit(&huart2,&LF,1,0xFFFF);
 				// HAL_UART_Transmit(&huart2,&CR,1,0xFFFF);
 			 }
@@ -262,6 +265,7 @@ uint8_t CR='\r';
 		 first=false;
 		program_start=false;
 		read=false;
+		 read_complet=false;
 		 while(1);//must remove for continuse opration added to test one memory transfer
 		
 		 }

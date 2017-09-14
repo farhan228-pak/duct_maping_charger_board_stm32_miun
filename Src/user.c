@@ -15,6 +15,7 @@ char SPI_rec[10];
  uint8_t read,first,read_complet;//variable used for checking read out or first write for which eras of memory is required
  uint8_t page_A23_A16, page_A15_A8, page_A7_A0;//variables to store page adresses
 __IO uint32_t ms_1_count;
+void crc8(uint8_t *crc, uint8_t m);
 /***************************************************/
 //void HAL_SYSTICK_Callback(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
@@ -91,16 +92,27 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			 if(samples==252)
 			 {
 				Sensor_data[samples]=readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
-				  samples=samples+1;//253
+				  //samples=samples+1;//253
 
-				Sensor_data[samples]=readByte(AK8963_ADDRESS, WHO_AM_I_AK8963);
-				  samples=samples+1;//254
+				Sensor_data[samples]=Sensor_data[samples]+ (readByte(AK8963_ADDRESS, WHO_AM_I_AK8963));
+				  samples=samples+1;//254 //253
 				 
 				 int16_t readTempData();//read temprature 
 				 
 				 Sensor_data[samples]=reg8_bit[X_H];//temprature high byte
-				 samples=samples+1;//255
+				 samples=samples+1;//255//254
 				 Sensor_data[samples]=reg8_bit[X_L];//temprature low byte 
+				 
+				 
+	/************************CRC Calculation************************************/	
+samples=samples+1;//255				 
+		uint8_t crc=0;
+	for(int j=0;j<=255;j++)
+		{
+			crc8(&crc, Sensor_data[j]);
+		}
+	Sensor_data[samples]=crc;//crc	
+/****************************************************************************/			 
 				 samples=255;
 			 }	
 	/**************************************************/			 
@@ -118,8 +130,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     //HAL_Delay(1000);//delay must be 1.5s for full erase
 		//HAL_Delay(500);//========
     first=true;//first writing is now done
-    }				
-	
+    }			
+
+		
 	write_EN_Flash();//enable flash for writing	
 	FLASH_CS_0;	
 	HAL_SPI_Transmit(&hspi1,&Flash_tx_rx[0], 4, 10);//send first four bytes i.e page_prog,page_A23_A16,page_A15_8,page_A7_A0
@@ -227,7 +240,63 @@ void SER_FLASH_ERASE(void)
 
 
 
-//uint32_t HAL_GetTick(void)
+
+ /*  
+ * crc8.c
+ * 
+ * Computes a 8-bit CRC 
+ * 
+ */
+
+#include <stdio.h>
+
+
+#define GP  0x107   /* x^8 + x^2 + x + 1 */
+#define DI  0x07
+
+
+static uint8_t crc8_table[256];     /* 8-bit table */
+static int made_table=0;
+
+static void init_crc8()
+     /*
+      * Should be called before any other crc function.  
+      */
+{
+  int i,j;
+  uint8_t crc;
+
+  if (!made_table) {
+    for (i=0; i<256; i++) {
+      crc = i;
+      for (j=0; j<8; j++)
+        crc = (crc << 1) ^ ((crc & 0x80) ? DI : 0);
+      crc8_table[i] = crc & 0xFF;
+      /* printf("table[%d] = %d (0x%X)\n", i, crc, crc); */
+    }
+    made_table=1;
+  }
+}
+
+
+void crc8(uint8_t *crc, uint8_t m)
+     /*
+      * For a byte array whose accumulated crc value is stored in *crc, computes
+      * resultant crc obtained by appending m to the byte array
+      */
+{
+  if (!made_table)
+    init_crc8();
+
+  *crc = crc8_table[(*crc) ^ m];
+  *crc &= 0xFF;
+}
+ 
+ 
+ 
+ 
+ 
+ //uint32_t HAL_GetTick(void)
 //{
 //  return ms_1_count;
 //}
