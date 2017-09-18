@@ -503,7 +503,7 @@
             <File>
               <FileName>system_stm32l0xx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Drivers/CMSIS//Device/ST/STM32L0xx/Source/Templates/system_stm32l0xx.c</FilePath>
+              <FilePath>../Src/system_stm32l0xx.c</FilePath>
             </File>
           </Files>
         </Group>
