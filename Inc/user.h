@@ -7,7 +7,7 @@ extern uint8_t reg8_bit[12];// equevelnt to  Flash_tx_rx[] array in pic code use
 extern uint8_t samples;//coutn for number of samples taken increment when one 8 bit register is read in HAL_SYSTICK_Callback()
 extern uint8_t init_seq;//variable set to check the status when MPU9250 is calibrated then it is set to 1 so intruppet loop will start to record samples
 extern char SPI_rec[10];
-extern uint8_t Flash_tx_rx[12];// mostly use for flash memory address
+extern uint8_t Flash_tx_rx[12];// mostly use for flash memory address __
 extern  uint8_t program_start;//start programm where flash will be arrased
 
 extern uint8_t read,first,read_complet;//variable used for checking read out or first write for which eras of memory is required

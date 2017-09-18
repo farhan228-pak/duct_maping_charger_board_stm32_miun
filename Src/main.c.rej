@@ -1,9 +1,0 @@
-diff a/Src/main.c b/Src/main.c	(rejected hunks)
-@@ -133,6 +133,7 @@
- 		printf("Acc_X_H=%x\n\r", reg8_bit[X_H]);
- 	printf("Acc_X_L=%x\n\r", reg8_bit[X_L]);
- 
-+		printf("acc_xvvvv=%i\n\r",accelCount[0]);
- 		//printf("acc_y=%i\n\r",accelCount[1]);
- 		//printf("acc_z=%i\n\r",accelCount[2]);
- 		readGyroData(gyroCount);  // Read the x/y/z adc values
