@@ -218,6 +218,14 @@ uint8_t CR='\r';
          Flash_tx_rx[1] = 0x00;
          Flash_tx_rx[2] = 0x00;
          Flash_tx_rx[3] = 0x00;
+			 //MX_USART2_UART_Init();
+			 //HAL_Delay(5000);
+			 uint8_t bu = 0;
+			 while(bu!='t')
+			 {
+			 HAL_UART_Receive(&huart2, &bu, 1, 100000);
+			 }
+			 
 			 
 		while(read_complet==false)
      {
@@ -267,7 +275,7 @@ uint8_t CR='\r';
 		program_start=false;
 		read=false;
 		 read_complet=false;
-		 while(1);//must remove for continuse opration added to test one memory transfer
+		 //while(1);//must remove for continuse opration added to test one memory transfer
 		
 		 }
 		
