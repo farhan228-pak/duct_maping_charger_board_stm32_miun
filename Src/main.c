@@ -119,10 +119,10 @@ init_seq=0;
   /* USER CODE BEGIN 2 */
 //HAL_TIM_Base_MspInit(&htim22);
 HAL_TIM_Base_Start_IT(&htim22);
-	//HAL_LPTIM_MspInit(&hlptim1);
+//HAL_LPTIM_MspInit(&hlptim1);
 //	HAL_NVIC_SetPriority(LPTIM1_IRQn,1,0);
 //	HAL_NVIC_EnableIRQ(LPTIM1_IRQn);
- //HAL_LPTIM_MspInit():
+//HAL_LPTIM_MspInit():
  MX_TIM22_Init2(150,50999);
 resetMPU9250(); // Reset registers to default in preparation for device calibration
 calibrateMPU9250(gyroBias, accelBias); // Calibrate gyro and accelerometers, load biases in bias registers  
@@ -133,14 +133,14 @@ HAL_ADC_Start(&hadc);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	   //write_EN_Flash();//need to enable flash for writing befor erase
-		//SER_FLASH_ERASE();//erase command function call
-   // HAL_Delay(1000);//delay must be 1.5s for full erase
-		//HAL_Delay(500);//========
+//write_EN_Flash();//need to enable flash for writing befor erase
+//SER_FLASH_ERASE();//erase command function call
+// HAL_Delay(1000);//delay must be 1.5s for full erase
+//HAL_Delay(500);//========
 
-		//HAL_Delay(500);//========
+//HAL_Delay(500);//========
 
-	//read_inital_values();//READ INITAL VALUE OF mpu9250 all registers
+//read_inital_values();//READ INITAL VALUE OF mpu9250 all registers
 //init_seq=1;//variable used for detecting if initilaization has been done for sensor
 
 read = false;
@@ -150,6 +150,8 @@ program_start=false;
 page_A23_A16=0x00, page_A15_A8=0x00, page_A7_A0=0x00;
 uint8_t LF='\n';
 uint8_t CR='\r';
+HAL_Delay(5000);
+
   while (1)
   {
   /* USER CODE END WHILE */
@@ -165,7 +167,7 @@ uint8_t CR='\r';
 //			while((HAL_ADC_GetValue(&hadc))<=0x5ff)//read adc for touch sensing
 //			{
 //				printf("adc_value_start recording=%x\n\r",HAL_ADC_GetValue(&hadc));
-//								HAL_Delay(200);
+//			 HAL_Delay(200);
 
 //			}
 //				printf("adc_value_after touch=%x\n\r",HAL_ADC_GetValue(&hadc));
@@ -174,7 +176,7 @@ uint8_t CR='\r';
 //			{
 //				;
 //			}
-			 MX_TIM22_Init2(0,50999);
+			 MX_TIM22_Init2(1,63999);//0,50999= 1,6ms =45s //  99,63999=200ms =10min // 1,63999=4ms=2min
 
 				page_A23_A16=0;
         page_A15_A8=0;
@@ -215,11 +217,13 @@ uint8_t CR='\r';
         page_A15_A8=0;
         page_A7_A0=0;
 			 Flash_tx_rx[0] = 0x03;
-         Flash_tx_rx[1] = 0x00;
-         Flash_tx_rx[2] = 0x00;
-         Flash_tx_rx[3] = 0x00;
+       Flash_tx_rx[1] = 0x00;
+       Flash_tx_rx[2] = 0x00;
+       Flash_tx_rx[3] = 0x00;
+			 
 			 //MX_USART2_UART_Init();
 			 //HAL_Delay(5000);
+			 
 			 uint8_t bu = 0;
 			 while(bu!='t')
 			 {
@@ -252,7 +256,7 @@ uint8_t CR='\r';
 				 HAL_UART_Transmit(&huart2,&Sensor_data[i],1,0xFFFF);
 				// if(i==254)
 				// {
-//				 printf("temp=%f\n\r",((float)((int16_t)(((int16_t)Sensor_data[255]) << 8 | Sensor_data[254]))/333.87f) + 21.0f);//read temprature out
+//			printf("temp=%f\n\r",((float)((int16_t)(((int16_t)Sensor_data[255]) << 8 | Sensor_data[254]))/333.87f) + 21.0f);//read temprature out
 				// }
 				 //HAL_UART_Transmit(&huart2,&LF,1,0xFFFF);
 				// HAL_UART_Transmit(&huart2,&CR,1,0xFFFF);
@@ -270,12 +274,12 @@ uint8_t CR='\r';
 		 
 //printf("Flash_address=%x%x%x\n\r",Flash_tx_rx[1],Flash_tx_rx[2],Flash_tx_rx[3]);
 		 //HAL_SPI_DeInit(&hspi1);
-		 init_seq=0;
-		 first=false;
+		init_seq=0;
+		first=false;
 		program_start=false;
 		read=false;
-		 read_complet=false;
-		 //while(1);//must remove for continuse opration added to test one memory transfer
+		read_complet=false;
+		while(1);//must remove for continuse opration added to test one memory transfer
 		
 		 }
 		
@@ -366,27 +370,27 @@ void read_inital_values(void)
 	printf("acl_X=%i   acl_Y=%i  acl_Z=%i\n\r",init_val[0],init_val[1],init_val[2]);
 	printf("Acc_X_H=%x\n\r", reg8_bit[X_H]);
 	printf("Acc_X_L=%x\n\r", reg8_bit[X_L]);	
-		printf("Acc_Y_H=%x\n\r", reg8_bit[Y_H]);
+	printf("Acc_Y_H=%x\n\r", reg8_bit[Y_H]);
 	printf("Acc_Y_L=%x\n\r", reg8_bit[Y_L]);	
-		printf("Acc_Z_H=%x\n\r", reg8_bit[Z_H]);
+	printf("Acc_Z_H=%x\n\r", reg8_bit[Z_H]);
 	printf("Acc_Z_L=%x\n\r", reg8_bit[Z_L]);	
 	
 	readGyroData(&init_val[0]);	
 	printf("GYR_X=%i   GYR_Y=%i  GYR_Z=%i\n\r",init_val[0],init_val[1],init_val[2]);
 	printf("GYR_X_H=%x\n\r", reg8_bit[X_H]);
 	printf("GYR_X_L=%x\n\r", reg8_bit[X_L]);	
-		printf("GYR_Y_H=%x\n\r", reg8_bit[Y_H]);
+	printf("GYR_Y_H=%x\n\r", reg8_bit[Y_H]);
 	printf("GYR_Y_L=%x\n\r", reg8_bit[Y_L]);	
-		printf("GYR_Z_H=%x\n\r", reg8_bit[Z_H]);
+	printf("GYR_Z_H=%x\n\r", reg8_bit[Z_H]);
 	printf("GYR_Z_L=%x\n\r", reg8_bit[Z_L]);
 
 readMagData(&init_val[0]);	
 	printf("Mag_X=%i   Mag_Y=%i  Mag_Z=%i\n\r",init_val[0],init_val[1],init_val[2]);
 	printf("Mag_X_H=%x\n\r", reg8_bit[X_H]);
 	printf("Mag_X_L=%x\n\r", reg8_bit[X_L]);	
-		printf("Mag_Y_H=%x\n\r", reg8_bit[Y_H]);
+	printf("Mag_Y_H=%x\n\r", reg8_bit[Y_H]);
 	printf("Mag_Y_L=%x\n\r", reg8_bit[Y_L]);	
-		printf("Mag_Z_H=%x\n\r", reg8_bit[Z_H]);
+	printf("Mag_Z_H=%x\n\r", reg8_bit[Z_H]);
 	printf("Mag_Z_L=%x\n\r", reg8_bit[Z_L]);	
 	
 	

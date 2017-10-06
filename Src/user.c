@@ -20,8 +20,8 @@ void crc8(uint8_t *crc, uint8_t m);
 //void HAL_SYSTICK_Callback(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	//HAL_GPIO_TogglePin(GPIOA,LED_D1_Pin); 
-		HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_14); 
+	HAL_GPIO_TogglePin(GPIOA,LED_D1_Pin); 
+		//HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_14); 
 
 	ms_1_count++;//increment every 1ms
 	if(init_seq==1 && read==false)
