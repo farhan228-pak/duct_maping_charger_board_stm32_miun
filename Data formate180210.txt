@@ -1,0 +1,73 @@
+	
+	Data format
+
+1) Total bytes = 524288 
+
+2) Total pages = 2048
+
+3) Bytes per page = 256
+
+4) each page contain 14 blocks of 18 registers of sensor data Accelro, Gyro ,Magnato = 252 Bytes +{ 4bytes(mpu_address+Magnato address),2bytes temprature,CRC8=256
+
+5)	byte sequence is as following
+
+		Accelerometer
+		
+				1 byte = Accelero X , High byte
+				
+				2 byte = Accelero X , Low byte
+				
+				3 byte = Accelero Y , High byte
+				
+				4 byte = Accelero Y , Low byte
+				
+				5 byte = Accelero Z , High byte
+				
+				6 byte = Accelero Z , Low byte
+		
+		GyroScope
+				
+				7  byte = Gyro X , High byte
+				
+				8  byte = Gyro X , Low byte
+				
+				9  byte = Gyro Y , High byte
+				
+				10 byte = Gyro Y , Low byte
+				
+				11 byte = Gyro Z , High byte
+				
+				12 byte = Gyro Z , Low byte
+				
+		Magnato
+			
+				13 byte = Magnato X , High byte
+				
+				14 byte = Magnato X , Low byte
+				
+				15 byte = Magnato Y , High byte
+				
+				16 byte = Magnato Y , Low byte
+				
+				17 byte = Magnato Z , High byte
+				
+				18 byte = Magnato Z , Low byte
+				
+	this 18 byte read process is repeted 14 time which  =18*14=252bytes
+
+	Last 4 bytes
+	
+				253 byte = MPU_Address + Magnato_Address=  0x71 fixed + 0x48 Fixed = 0xB9
+			
+				254 byte Tempreture , High byte 
+				
+				255 byte Tempreture , Low byte
+				
+				256 byte= CRC8 
+
+				
+temprature conversion formula
+
+				
+				((float)(int16_bit temprature)/333.8)+ 21.0)
+				
