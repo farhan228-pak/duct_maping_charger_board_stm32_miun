@@ -167,7 +167,7 @@ HAL_Delay(5000);// delay befor start
 //			while((HAL_ADC_GetValue(&hadc))<=0x5ff)//read adc for touch sensing
 //			{
 ////				printf("adc_value_start recording=%x\n\r",HAL_ADC_GetValue(&hadc));
-//			 HAL_Delay(200);
+////			 HAL_Delay(200);
 
 //			}
 //				printf("adc_value_after touch=%x\n\r",HAL_ADC_GetValue(&hadc));
