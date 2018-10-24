@@ -1,4 +1,12 @@
 	
+	This code works on sonde board as
+	main board was used to develop code
+	for SONDE thats why it is named as 
+
+	duct_maping_Charger_board code
+
+
+
 	Data format
 
 1) Total bytes = 524288 
