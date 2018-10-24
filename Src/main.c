@@ -188,7 +188,7 @@ HAL_Delay(5000);// delay befor start
 		HAL_Delay(1000);//========		
 		program_start=true;		
 		init_seq=1;//variable used for detecting if initilaization has been done for sensor
-		//while(read==false);//wait untill array is full
+		////while(read==false);//wait untill array is full
 			printf("adc_value=%x\n\r",HAL_ADC_GetValue(&hadc));
 		}
 		
